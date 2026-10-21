@@ -43,7 +43,10 @@ Structure the report as:
 - Introduction
 - Key Findings (minimum 3 well-explained points)
 - Conclusion
-- Sources (list all URLs found in the research)
+- Sources (list the exact source URLs supplied in the research)
+
+Use the supplied URLs verbatim. Do not claim that no URLs were found when URLs
+are included in the research, and do not invent URLs.
 
 Be detailed, factual and professional."""),
 ])

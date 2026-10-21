@@ -14,19 +14,28 @@ load_dotenv()
 
 tavily = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 
+
+def search_web_results(query: str) -> list[dict[str, str]]:
+    """Return search results with their titles, URLs, and snippets intact."""
+    response = tavily.search(query=query, max_results=5)
+    return [
+        {
+            "title": result["title"],
+            "url": result["url"],
+            "snippet": result["content"][:300],
+        }
+        for result in response["results"]
+    ]
+
+
 @tool
 def web_search(query : str) -> str:
     """Search the web for recent and reliable information on a topic . Returns Titles , URLs and snippets."""
-    results = tavily.search(query=query,max_results=5)
-
-    out = []
-
-    for r in results['results']:
-        out.append(
-            f"Title: {r['title']}\nURL: {r['url']}\nSnippet: {r['content'][:300]}\n"
-        )
-    
-    return "\n----\n".join(out)
+    return "\n----\n".join(
+        f"Title: {result['title']}\nURL: {result['url']}\n"
+        f"Snippet: {result['snippet']}\n"
+        for result in search_web_results(query)
+    )
 
 
 @tool
